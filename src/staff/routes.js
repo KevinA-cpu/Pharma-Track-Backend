@@ -9,6 +9,6 @@ router.post("/", controller.insertStaff);
 
 router.put("/", controller.updateStaffType);
 
-router.delete("/:name", controller.deleteStaff);
+router.delete("/", controller.deleteStaff);
 
 export default router;

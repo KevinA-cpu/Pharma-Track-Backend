@@ -70,7 +70,7 @@ const updateStaffType = async (req, res) => {
 
 const deleteStaff = async (req, res) => {
   try {
-    const name = req.params.name;
+    const { name } = req.body;
     const results = await checkStaffExist(name);
 
     if (!results) {
