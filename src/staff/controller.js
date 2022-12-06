@@ -96,9 +96,34 @@ const deleteStaff = async (req, res) => {
     throw error;
   }
 };
+const getDoctorByName = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const results = await pool.query(queries.getDoctorByName, [name]);
+    res.status(200).json(results.rows);
+  } catch {
+    res.status(500).json(failMessage);
+    throw error;
+  }
+};
+
+const getStaffByDepartment = async (req, res) => {
+  try {
+    const { department } = req.body;
+    const results = await pool.query(queries.getStaffByDepartment, [
+      department,
+    ]);
+    res.status(200).json(results.rows);
+  } catch (error) {
+    res.status(500).json(failMessage);
+    throw error;
+  }
+};
 export default {
   getStaff,
   insertStaff,
   updateStaffType,
   deleteStaff,
+  getDoctorByName,
+  getStaffByDepartment,
 };
