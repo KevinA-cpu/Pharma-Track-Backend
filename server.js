@@ -7,7 +7,7 @@ const App = Express();
 App.use(Express.json());
 
 App.get("/", (req, res) => {
-  res.send("placholder");
+  res.send("placeholder");
 });
 
 App.use("/api/v1/staff", staffRouter);

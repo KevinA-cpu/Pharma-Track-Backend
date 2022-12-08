@@ -22,8 +22,8 @@ const getStaff = async (req, res) => {
 
 const insertStaff = async (req, res) => {
   try {
-    const { name, number, type } = req.body;
-    await pool.query(queries.insertStaff, [name, number, type]);
+    const { name, number, type, department } = req.body;
+    await pool.query(queries.insertStaff, [name, number, type, department]);
     res.status(200).json({
       results: "success",
       message: "staff insert successfully",
@@ -31,6 +31,7 @@ const insertStaff = async (req, res) => {
         name: name,
         number: number,
         type: type,
+        department: department,
       },
     });
   } catch (error) {
