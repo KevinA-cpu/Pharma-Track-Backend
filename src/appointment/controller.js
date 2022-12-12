@@ -104,7 +104,6 @@ const deleteAppointment = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status();
     throw error;
   }
 };
