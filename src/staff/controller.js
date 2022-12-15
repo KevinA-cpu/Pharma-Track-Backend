@@ -103,7 +103,6 @@ const getDoctorByName = async (req, res) => {
     const results = await pool.query(queries.getDoctorByName, [name]);
     res.status(200).json(results.rows);
   } catch {
-    res.status(500).json(failMessage);
     throw error;
   }
 };
@@ -116,10 +115,30 @@ const getStaffByDepartment = async (req, res) => {
     ]);
     res.status(200).json(results.rows);
   } catch (error) {
-    res.status(500).json(failMessage);
     throw error;
   }
 };
+
+const getStaffByID = async (req, res) => {
+  try {
+    const { id_staff } = req.body;
+    const results = await pool.query(queries.getStaffByID, [id_staff]);
+    res.status(200).json(results.rows);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getStaffByClinicID = async (req, res) => {
+  try {
+    const { id_clinic } = req.body;
+    const results = await pool.query(queries.getStaffByClinicID, [id_clinic]);
+    res.status(200).json(results.rows);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   getStaff,
   insertStaff,
@@ -127,4 +146,6 @@ export default {
   deleteStaff,
   getDoctorByName,
   getStaffByDepartment,
+  getStaffByID,
+  getStaffByClinicID,
 };

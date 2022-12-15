@@ -9,6 +9,10 @@ router.get("/doctorName", controller.getDoctorByName);
 
 router.get("/staffDepartment", controller.getStaffByDepartment);
 
+router.get("/staffByID", controller.getStaffByID);
+
+router.get("/staffByClinicID", controller.getStaffByClinicID);
+
 router.post("/", controller.insertStaff);
 
 router.put("/", controller.updateStaffType);

@@ -8,6 +8,8 @@ const getDoctorByName =
   "SELECT * FROM staff WHERE type = 'doctor' AND name = $1";
 const getStaffByDepartment =
   "SELECT * FROM staff WHERE type = 'doctor' AND department = $1";
+const getStaffByID = "SELECT * FROM staff WHERE id_staff = $1;";
+const getStaffByClinicID = "SELECT * FROM staff WHERE id_clinic = $1;";
 export default {
   getStaff,
   insertStaff,
@@ -16,4 +18,6 @@ export default {
   findStaffWithName,
   getDoctorByName,
   getStaffByDepartment,
+  getStaffByID,
+  getStaffByClinicID,
 };
