@@ -1,6 +1,6 @@
 const getAppointment = "SELECT * FROM appointment;";
 const insertAppointment =
-  "INSERT INTO appointment (time, doctor, test, number, address, status) VALUES($1 , $2, $3, $4, $5, $6);";
+  "INSERT INTO appointment (time, doctor, test, number, address, status, id_clinic) VALUES($1 , $2, $3, $4, $5, $6, $7);";
 const updateAppointmentStatus =
   "UPDATE appointment SET status = $1 WHERE id_appointment = $2;";
 const deleteAppointment = "DELETE FROM appointment WHERE id_appointment = $1;";

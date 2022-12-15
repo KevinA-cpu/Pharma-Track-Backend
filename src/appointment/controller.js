@@ -24,7 +24,7 @@ const getAppointment = async (req, res) => {
 
 const insertAppointment = async (req, res) => {
   try {
-    const { time, doctor, test, number, address, status } = req.body;
+    const { time, doctor, test, number, address, status, id_clinic } = req.body;
     await pool.query(queries.insertAppointment, [
       time,
       doctor,
@@ -32,6 +32,7 @@ const insertAppointment = async (req, res) => {
       number,
       address,
       status,
+      id_clinic,
     ]);
     res.status(200).json({
       results: "success",
@@ -43,6 +44,7 @@ const insertAppointment = async (req, res) => {
         number: number,
         address: address,
         status: status,
+        id_clinic: id_clinic,
       },
     });
   } catch (error) {
