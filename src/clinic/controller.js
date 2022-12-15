@@ -1,3 +1,4 @@
+import e, { query } from "express";
 import pool from "../../db.js";
 import queries from "./queries.js";
 
@@ -20,15 +21,36 @@ const getClinic = async (req, res) => {
   }
 };
 
+const getClinicByID_Clinic = async(req,res) =>
+{
+  try {
+    const {id_clinic} = req.body;
+    const result = await pool.query(queries.findClinic,[id_clinic]);
+    if(!result.rows.length)
+    {
+      res.status(401).json({
+        result: 'failed',
+        reason: `Clinic with ${id_clinic} was not found`
+      })
+    }
+    else
+    {
+      res.status(200).json(result.rows);
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
 const Search_TinhThanhPho = async(req,res)=>{
   try {
-    const {tinh_thanhpho} = req.body;
-    const results = await pool.query(queries.Search_TinhThanhPho,[tinh_thanhpho]);
+    const {province} = req.body;
+    const results = await pool.query(queries.Search_Province,[province]);
     if(!results.rows.length)
     {
       res.status(401).json({
         result: "Failed",
-        reason : `Don't have Clinic with name ${tinh_thanhpho} in database`
+        reason : `Don't have Clinic with name ${province} in database`
       });
     }
     else
@@ -43,13 +65,13 @@ const Search_TinhThanhPho = async(req,res)=>{
 const Search_TinhThanhPho_QuanHuyen = async(req,res) =>
 {
   try {
-    const {tinh_thanhpho,quan_huyen} = req.body;
-    const results = await pool.query(queries.Search_TinhThanhPho_QuanHuyen,[tinh_thanhpho,quan_huyen]);
+    const {province,city} = req.body;
+    const results = await pool.query(queries.Search_Province_City,[province,city]);
     if(!results.rows.length)
     {
       res.status(401).json({
         result: "Failed",
-        reason : `Khong ton tai phong kham o tinh/thanhpho: ${tinh_thanhpho} va quan/huyen: ${quan_huyen} trong database`
+        reason : `Khong ton tai phong kham o tinh/thanhpho: ${province} va quan/huyen: ${city} trong database`
       });
     }
     else
@@ -64,13 +86,13 @@ const Search_TinhThanhPho_QuanHuyen = async(req,res) =>
 const Search_TinhThanhPho_QuanHuyen_DiaChi = async(req,res) =>
 {
   try {
-    const {tinh_thanhpho,quan_huyen,diachi} = req.body;
-    const results = await pool.query(queries.Search_TinhThanhPho_QuanHuyen_DiaChi,[tinh_thanhpho,quan_huyen,diachi]);
+    const {province,city,address} = req.body;
+    const results = await pool.query(queries.Search_Province_City_Adress,[province,city,address]);
     if(!results.rows.length)
     {
       res.status(401).json({
         result: "Failed",
-        reason : `Khong ton tai phong kham o tinh/thanhpho ${tinh_thanhpho} va quan/huyen ${quan_huyen} va diachi = ${diachi} trong database`
+        reason : `Khong ton tai phong kham o province ${province} va city ${city} va dia chi = ${address} trong database`
       });
     }
     else
@@ -84,11 +106,11 @@ const Search_TinhThanhPho_QuanHuyen_DiaChi = async(req,res) =>
 
 const insertClinic = async (req, res) => {
   try {
-    const {id_clinic,name_clinic,name_doctor,tinh_thanhpho,quan_huyen,diachi,status_clinic} = req.body;
-    const checkexists = checkClinicExists(id_clinic)
+    const {id_clinic,name_clinic,name_doctor,province,city,address,status_clinic} = req.body;
+    const checkexists = await checkClinicExists(id_clinic)
     if(checkexists === false)
     {
-      await pool.query(queries.insertClinic, [id_clinic,name_clinic,name_doctor,tinh_thanhpho,quan_huyen,diachi,status_clinic]);
+      await pool.query(queries.insertClinic, [id_clinic,name_clinic,name_doctor,province,city,address,status_clinic]);
       res.status(200).json({
         results: "success",
         message: "Clinic insert successfully",
@@ -96,9 +118,9 @@ const insertClinic = async (req, res) => {
           id_clinic: id_clinic,
           name_clinic: name_clinic,
           name_doctor: name_doctor,
-          tinh_thanhpho: tinh_thanhpho,
-          quan_huyen: quan_huyen,
-          diachi:diachi,
+          province: province,
+          city: city,
+          address:address,
           status_clinic: status_clinic
         },
       });  
@@ -178,6 +200,7 @@ const deleteClinic = async (req, res) => {
 };
 export default {
   getClinic,
+  getClinicByID_Clinic,
   Search_TinhThanhPho,
   Search_TinhThanhPho_QuanHuyen,
   Search_TinhThanhPho_QuanHuyen_DiaChi,
