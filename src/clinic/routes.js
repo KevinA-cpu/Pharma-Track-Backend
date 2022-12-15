@@ -4,6 +4,7 @@ import controller from "./controller.js";
 const router = Router();
 
 router.get("/", controller.getClinic);
+router.get("/id_clinic", controller.getClinicByID_Clinic);
 router.get("/tinh_thanhpho", controller.Search_TinhThanhPho);
 router.get(
   "/tinh_thanhpho/quan_huyen",

@@ -6,8 +6,14 @@ moment().format();
 const checkPrescriptionExists = async (id_prescription) => {
   try {
     const results = await pool.query(queries.findPrescription, [id_prescription]);
-    if (!results.rows.length) return false;
-    return true;
+    // console.log(results.rows.length)
+    // console.log(results.rows)
+    if (!results.rows.length)
+    {
+      return false;
+    } 
+    else 
+      return true;
   } catch (error) {
     throw error;
   }
@@ -42,40 +48,40 @@ const getPrescriptionByIDPrescription = async (req, res) => {
   }
 };
 
-const getPrescriptionByDateMedical = async (req, res) => {
-  try {
-    const {date_medical} = req.body
-    const results = await pool.query(queries.getPrescriptionByDateMedical,[date_medical]);
-    if(!results.rows.length)
-    {
-      res.status(401).json({
-        result: "That bai",
-        reason: `Khong co don thuoc duoc thuc hien vao ngay ${date_medical}`
-      })
-    }
-    else
-    {
-      res.status(200).json(results.rows);
-    }
-  } catch (error) {
-    throw error;
-  }
-};
+// const getPrescriptionByDateMedical = async (req, res) => {
+//   try {
+//     const {date_medical} = req.body
+//     const results = await pool.query(queries.getPrescriptionByDateMedical,[date_medical]);
+//     if(!results.rows.length)
+//     {
+//       res.status(401).json({
+//         result: "That bai",
+//         reason: `Khong co don thuoc duoc thuc hien vao ngay ${date_medical}`
+//       })
+//     }
+//     else
+//     {
+//       res.status(200).json(results.rows);
+//     }
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 const insertPrescription = async (req, res) => {
   try {
-    const {id_prescription,image,date_medical} = req.body;
-    const check = checkPrescriptionExists(id_prescription);
+    const {id_prescription} = req.body;
+    const check = await checkPrescriptionExists(id_prescription);
     if(check === false)
     {
-      await pool.query(queries.insertPrescription, [id_prescription,image,date_medical]);
+      await pool.query(queries.insertPrescription, [id_prescription]);
       res.status(200).json({
         results: "success",
         message: "Prescription insert successfully",
         data: {
-          id_prescription : id_prescription ,
-          image: image,
-          date_medical: date_medical 
+          id_prescription : id_prescription 
+          // image: image,
+          // date_medical: date_medical 
         },
       });
     }
@@ -85,9 +91,9 @@ const insertPrescription = async (req, res) => {
         results: "failed",
         message: "Prescription is already exist",
         data: {
-          id_prescription : id_prescription ,
-          image: image,
-          date_medical: date_medical 
+          id_prescription : id_prescription 
+          // image: image,
+          // date_medical: date_medical 
         },
       });
     }
@@ -98,7 +104,7 @@ const insertPrescription = async (req, res) => {
 
 const updatePrescription = async (req, res) => {
   try {
-    const { date_medical, id_prescription } = req.body;
+    const { id_prescription_update, id_prescription } = req.body;
     const results = await checkPrescriptionExists(id_prescription);
 
     if (!results) {
@@ -112,12 +118,12 @@ const updatePrescription = async (req, res) => {
       return;
     }
 
-    await pool.query(queries.updatePrescription, [date_medical, id_prescription]);
+    await pool.query(queries.updatePrescription, [id_prescription_update, id_prescription]);
     res.status(200).json({
       results: "success",
       message: "prescription update successfully",
       data: {
-        date_medical: date_medical,
+        // date_medical: date_medical,
         id_prescription: id_prescription,
       },
     });
@@ -130,7 +136,7 @@ const deletePrescription = async (req, res) => {
   try {
     const { id_prescription } = req.body;
     const results = await checkPrescriptionExists(id_prescription);
-
+    console.log(results)
     if (!results) {
       res.status(404).json({
         results: "fail",
@@ -157,7 +163,7 @@ const deletePrescription = async (req, res) => {
 export default {
   getPrescription,
   getPrescriptionByIDPrescription,
-  getPrescriptionByDateMedical,
+  // getPrescriptionByDateMedical,
   insertPrescription,
   updatePrescription,
   deletePrescription,
