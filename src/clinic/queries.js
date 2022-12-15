@@ -1,4 +1,4 @@
-const getClinic = "SELECT * FROM clinic ORDER BY ID ASC;";
+const getClinic = "SELECT * FROM clinic;";
 const Search_Province = "SELECT * FROM clinic WHERE province = $1;";
 const Search_Province_City =
   "SELECT * FROM clinic WHERE province = $1 and city = $2";
