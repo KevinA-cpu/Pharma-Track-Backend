@@ -34,9 +34,9 @@ const getPrescriptionByIDPrescription = async (req, res) => {
     const results = await pool.query(queries.findPrescription,[id_prescription]);
     if(!results.rows.length)
     {
-      res.status(401).json({
-        result: "That bai",
-        reason: `Khong co don thuoc duoc có ID ${id_prescription}`
+      res.status(404).json({
+        result: "Failed",
+        reason: `Prescription no found with ID: ${id_prescription}`
       })
     }
     else
@@ -54,7 +54,7 @@ const getPrescriptionByIDPrescription = async (req, res) => {
 //     const results = await pool.query(queries.getPrescriptionByDateMedical,[date_medical]);
 //     if(!results.rows.length)
 //     {
-//       res.status(401).json({
+//       res.status(404).json({
 //         result: "That bai",
 //         reason: `Khong co don thuoc duoc thuc hien vao ngay ${date_medical}`
 //       })
@@ -87,7 +87,7 @@ const insertPrescription = async (req, res) => {
     }
     else
     {
-      res.status(401).json({
+      res.status(404).json({
         results: "failed",
         message: "Prescription is already exist",
         data: {
