@@ -13,5 +13,4 @@ export default {
   updateAppointmentStatus,
   deleteAppointment,
   findAppointmentWithID,
-  findClinicWithID,
 };
