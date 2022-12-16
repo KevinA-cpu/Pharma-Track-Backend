@@ -44,6 +44,26 @@ const getPrescriptionByIDPrescription = async (req, res) => {
   }
 };
 
+// const getPrescriptionByDateMedical = async (req, res) => {
+//   try {
+//     const {date_medical} = req.body
+//     const results = await pool.query(queries.getPrescriptionByDateMedical,[date_medical]);
+//     if(!results.rows.length)
+//     {
+//       res.status(404).json({
+//         result: "That bai",
+//         reason: `Khong co don thuoc duoc thuc hien vao ngay ${date_medical}`
+//       })
+//     }
+//     else
+//     {
+//       res.status(200).json(results.rows);
+//     }
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 const insertPrescription = async (req, res) => {
   try {
     const { id_prescription } = req.body;
