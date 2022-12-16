@@ -1,21 +1,11 @@
 import pool from "../../db.js";
 import queries from "./queries.js";
-
+import { checkClinicExists } from "../checkForeignKeyContraint.js";
 const checkAppointmentExist = async (id_appointment) => {
   try {
     const results = await pool.query(queries.findAppointmentWithID, [
       id_appointment,
     ]);
-    if (!results.rows.length) return false;
-    return true;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const checkClinicExists = async (id_clinic) => {
-  try {
-    const results = await pool.query(queries.findClinicWithID, [id_clinic]);
     if (!results.rows.length) return false;
     return true;
   } catch (error) {

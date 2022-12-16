@@ -1,6 +1,6 @@
 import pool from "../../db.js";
 import queries from "./queries.js";
-
+import { checkClinicExists } from "../checkForeignKeyContraint.js";
 const checkStaffExist = async (name) => {
   try {
     const results = await pool.query(queries.findStaffWithName, [name]);
@@ -23,6 +23,18 @@ const getStaff = async (req, res) => {
 const insertStaff = async (req, res) => {
   try {
     const { name, number, type, department, id_clinic } = req.body;
+    const results = await checkClinicExists(id_clinic);
+    if (!results) {
+      res.status(404).json({
+        results: "that bai",
+        message:
+          "khong tim thay clinic voi id tren, vi pham rang buoc khoa ngoai",
+        data: {
+          id_clinic: id_clinic,
+        },
+      });
+      return;
+    }
     await pool.query(queries.insertStaff, [
       name,
       number,
