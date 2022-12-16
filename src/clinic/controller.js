@@ -26,7 +26,7 @@ const getClinicByID_Clinic = async (req, res) => {
     const { id_clinic } = req.body;
     const result = await pool.query(queries.findClinic, [id_clinic]);
     if (!result.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "failed",
         reason: `Clinic with ${id_clinic} was not found`,
       });
@@ -43,7 +43,7 @@ const Search_TinhThanhPho = async (req, res) => {
     const { province } = req.body;
     const results = await pool.query(queries.Search_Province, [province]);
     if (!results.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "Failed",
         reason: `Don't have Clinic with name ${province} in database`,
       });
@@ -63,7 +63,7 @@ const Search_TinhThanhPho_QuanHuyen = async (req, res) => {
       city,
     ]);
     if (!results.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "Failed",
         reason: `Khong ton tai phong kham o tinh/thanhpho: ${province} va quan/huyen: ${city} trong database`,
       });
@@ -84,7 +84,7 @@ const Search_TinhThanhPho_QuanHuyen_DiaChi = async (req, res) => {
       address,
     ]);
     if (!results.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "Failed",
         reason: `Khong ton tai phong kham o province ${province} va city ${city} va dia chi = ${address} trong database`,
       });
