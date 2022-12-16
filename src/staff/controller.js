@@ -31,8 +31,8 @@ const insertStaff = async (req, res) => {
       id_clinic,
     ]);
     res.status(200).json({
-      results: "success",
-      message: "staff insert successfully",
+      results: "thanh cong",
+      message: "them staff thanh cong",
       data: {
         name: name,
         number: number,
@@ -53,8 +53,8 @@ const updateStaffType = async (req, res) => {
 
     if (!results) {
       res.status(404).json({
-        results: "fail",
-        message: "staff with name not found",
+        results: "that bai",
+        message: "khong tim thay staff voi ten o duoi",
         data: {
           name: name,
         },
@@ -64,8 +64,8 @@ const updateStaffType = async (req, res) => {
 
     await pool.query(queries.updateStaffType, [type, name]);
     res.status(200).json({
-      results: "success",
-      message: "staff update successfully",
+      results: "thanh cong",
+      message: "cap nhat staff thanh cong",
       data: {
         name: name,
         type: type,
@@ -83,8 +83,8 @@ const deleteStaff = async (req, res) => {
 
     if (!results) {
       res.status(404).json({
-        results: "fail",
-        message: "staff with name not found",
+        results: "that bai",
+        message: "khong tim thay staff voi ten o duoi",
         data: {
           name: name,
         },
@@ -94,8 +94,8 @@ const deleteStaff = async (req, res) => {
 
     await pool.query(queries.deleteStaff, [name]);
     res.status(200).json({
-      results: "success",
-      message: "staff delete successfully",
+      results: "thanh cong",
+      message: "xoa staff thanh cong",
       data: {
         name: name,
       },

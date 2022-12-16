@@ -27,8 +27,8 @@ const getClinicByID_Clinic = async (req, res) => {
     const result = await pool.query(queries.findClinic, [id_clinic]);
     if (!result.rows.length) {
       res.status(401).json({
-        result: "failed",
-        reason: `Clinic with ${id_clinic} was not found`,
+        result: "that bai",
+        reason: `phong kham voi id ${id_clinic} khong tim thay`,
       });
     } else {
       res.status(200).json(result.rows);
@@ -44,8 +44,8 @@ const Search_TinhThanhPho = async (req, res) => {
     const results = await pool.query(queries.Search_Province, [province]);
     if (!results.rows.length) {
       res.status(401).json({
-        result: "Failed",
-        reason: `Don't have Clinic with name ${province} in database`,
+        result: "that bai",
+        reason: `khong co phong kham voi ten ${province} trong database`,
       });
     } else {
       res.status(200).json(results.rows);
@@ -64,7 +64,7 @@ const Search_TinhThanhPho_QuanHuyen = async (req, res) => {
     ]);
     if (!results.rows.length) {
       res.status(401).json({
-        result: "Failed",
+        result: "that bai",
         reason: `Khong ton tai phong kham o tinh/thanhpho: ${province} va quan/huyen: ${city} trong database`,
       });
     } else {
@@ -85,7 +85,7 @@ const Search_TinhThanhPho_QuanHuyen_DiaChi = async (req, res) => {
     ]);
     if (!results.rows.length) {
       res.status(401).json({
-        result: "Failed",
+        result: "that bai",
         reason: `Khong ton tai phong kham o province ${province} va city ${city} va dia chi = ${address} trong database`,
       });
     } else {
@@ -123,8 +123,8 @@ const insertClinic = async (req, res) => {
         lng,
       ]);
       res.status(200).json({
-        results: "success",
-        message: "Clinic insert successfully",
+        results: "thanh cong",
+        message: "them clinic thanh cong",
         data: {
           id_clinic: id_clinic,
           name_clinic: name_clinic,
@@ -139,8 +139,8 @@ const insertClinic = async (req, res) => {
       });
     } else {
       res.status(404).json({
-        results: "fail",
-        message: "Clinic with is already exists",
+        results: "that bai",
+        message: "clinic voi id nay da ton tai",
         data: {
           id_clinic: id_clinic,
         },
@@ -158,8 +158,8 @@ const updateClinic = async (req, res) => {
 
     if (!results) {
       res.status(404).json({
-        results: "fail",
-        message: "Clinic with name not found",
+        results: "that bai",
+        message: "khong tim thay phong kham voi ten",
         data: {
           name_clinic: name_clinic,
         },
@@ -169,8 +169,8 @@ const updateClinic = async (req, res) => {
 
     await pool.query(queries.updateClinic, [name_clinic, id_clinic]);
     res.status(200).json({
-      results: "success",
-      message: "Clinic update successfully",
+      results: "thanh cong",
+      message: "phong kham cap nhat thanh cong",
       data: {
         name_clinic: name_clinic,
         id_clinic: id_clinic,
@@ -188,8 +188,8 @@ const deleteClinic = async (req, res) => {
 
     if (!results) {
       res.status(404).json({
-        results: "fail",
-        message: "Clinic with id_clinic not found",
+        results: "that bai",
+        message: "khong tim thay phong kham voi id o duoi",
         data: {
           id_clinic: id_clinic,
         },
@@ -199,8 +199,8 @@ const deleteClinic = async (req, res) => {
 
     await pool.query(queries.deleteClinic, [id_clinic]);
     res.status(200).json({
-      results: "success",
-      message: "clinic delete successfully",
+      results: "thanh cong",
+      message: "xoa phong kham thanh cong",
       data: {
         id_clinic: id_clinic,
       },

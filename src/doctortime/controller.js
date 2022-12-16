@@ -20,8 +20,8 @@ const updateDoctorShiftStatus = async (req, res) => {
       await pool.query(queries.bookDoctorShift, [id_doctortime, shift]);
     else await pool.query(queries.unbookDoctorShift, [id_doctortime, shift]);
     res.status(200).json({
-      results: "success",
-      message: `shift ${action} successfully`,
+      results: "thanh cong",
+      message: `ca ${action} thanh cong`,
       data: {
         id_doctortime: id_doctortime,
         shift: shift,

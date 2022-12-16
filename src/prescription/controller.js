@@ -1,19 +1,16 @@
 import pool from "../../db.js";
 import queries from "./queries.js";
-import moment from 'moment';
+import moment from "moment";
 moment().format();
 
 const checkPrescriptionExists = async (id_prescription) => {
   try {
-    const results = await pool.query(queries.findPrescription, [id_prescription]);
-    // console.log(results.rows.length)
-    // console.log(results.rows)
-    if (!results.rows.length)
-    {
+    const results = await pool.query(queries.findPrescription, [
+      id_prescription,
+    ]);
+    if (!results.rows.length) {
       return false;
-    } 
-    else 
-      return true;
+    } else return true;
   } catch (error) {
     throw error;
   }
@@ -30,17 +27,16 @@ const getPrescription = async (req, res) => {
 
 const getPrescriptionByIDPrescription = async (req, res) => {
   try {
-    const {id_prescription} = req.body
-    const results = await pool.query(queries.findPrescription,[id_prescription]);
-    if(!results.rows.length)
-    {
+    const { id_prescription } = req.body;
+    const results = await pool.query(queries.findPrescription, [
+      id_prescription,
+    ]);
+    if (!results.rows.length) {
       res.status(401).json({
         result: "That bai",
-        reason: `Khong co don thuoc duoc có ID ${id_prescription}`
-      })
-    }
-    else
-    {
+        reason: `Khong co don thuoc nao co ID ${id_prescription}`,
+      });
+    } else {
       res.status(200).json(results.rows);
     }
   } catch (error) {
@@ -48,52 +44,29 @@ const getPrescriptionByIDPrescription = async (req, res) => {
   }
 };
 
-// const getPrescriptionByDateMedical = async (req, res) => {
-//   try {
-//     const {date_medical} = req.body
-//     const results = await pool.query(queries.getPrescriptionByDateMedical,[date_medical]);
-//     if(!results.rows.length)
-//     {
-//       res.status(401).json({
-//         result: "That bai",
-//         reason: `Khong co don thuoc duoc thuc hien vao ngay ${date_medical}`
-//       })
-//     }
-//     else
-//     {
-//       res.status(200).json(results.rows);
-//     }
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
 const insertPrescription = async (req, res) => {
   try {
-    const {id_prescription} = req.body;
+    const { id_prescription } = req.body;
     const check = await checkPrescriptionExists(id_prescription);
-    if(check === false)
-    {
+    if (check === false) {
       await pool.query(queries.insertPrescription, [id_prescription]);
       res.status(200).json({
-        results: "success",
-        message: "Prescription insert successfully",
+        results: "thanh cong",
+        message: "them don thuoc thanh cong",
         data: {
-          id_prescription : id_prescription 
+          id_prescription: id_prescription,
           // image: image,
-          // date_medical: date_medical 
+          // date_medical: date_medical
         },
       });
-    }
-    else
-    {
+    } else {
       res.status(401).json({
-        results: "failed",
-        message: "Prescription is already exist",
+        results: "that bai",
+        message: "da ton tai don thuoc voi id o duoi",
         data: {
-          id_prescription : id_prescription 
+          id_prescription: id_prescription,
           // image: image,
-          // date_medical: date_medical 
+          // date_medical: date_medical
         },
       });
     }
@@ -109,19 +82,22 @@ const updatePrescription = async (req, res) => {
 
     if (!results) {
       res.status(404).json({
-        results: "fail",
-        message: "prescription with name not found",
+        results: "that bai",
+        message: "khong tim thay don thuoc ung voi ten",
         data: {
-            id_prescription: id_prescription,
+          id_prescription: id_prescription,
         },
       });
       return;
     }
 
-    await pool.query(queries.updatePrescription, [id_prescription_update, id_prescription]);
+    await pool.query(queries.updatePrescription, [
+      id_prescription_update,
+      id_prescription,
+    ]);
     res.status(200).json({
-      results: "success",
-      message: "prescription update successfully",
+      results: "thanh cong",
+      message: "don thuoc cap nhat thanh cong",
       data: {
         // date_medical: date_medical,
         id_prescription: id_prescription,
@@ -136,13 +112,13 @@ const deletePrescription = async (req, res) => {
   try {
     const { id_prescription } = req.body;
     const results = await checkPrescriptionExists(id_prescription);
-    console.log(results)
+    console.log(results);
     if (!results) {
       res.status(404).json({
-        results: "fail",
-        message: "Prescription with name not found",
+        results: "that bai",
+        message: "khong tim thay don thuoc voi ten do",
         data: {
-            id_prescription: id_prescription,
+          id_prescription: id_prescription,
         },
       });
       return;
@@ -150,8 +126,8 @@ const deletePrescription = async (req, res) => {
 
     await pool.query(queries.deletePrescription, [id_prescription]);
     res.status(200).json({
-      results: "success",
-      message: "staff delete successfully",
+      results: "thanh cong",
+      message: "xoa don thuoc thanh cong",
       data: {
         id_prescription: id_prescription,
       },
@@ -163,7 +139,6 @@ const deletePrescription = async (req, res) => {
 export default {
   getPrescription,
   getPrescriptionByIDPrescription,
-  // getPrescriptionByDateMedical,
   insertPrescription,
   updatePrescription,
   deletePrescription,

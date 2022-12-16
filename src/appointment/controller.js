@@ -35,8 +35,8 @@ const insertAppointment = async (req, res) => {
       id_clinic,
     ]);
     res.status(200).json({
-      results: "success",
-      message: "appointment insert successfully",
+      results: "thanh cong",
+      message: "them appointment thanh cong",
       data: {
         time: time,
         doctor: doctor,
@@ -59,8 +59,8 @@ const updateAppointmentStatus = async (req, res) => {
 
     if (!results) {
       res.status(404).json({
-        results: "fail",
-        message: "appointment with id not found",
+        results: "that bai",
+        message: "khong tim thay appointment voi id tren",
         data: {
           id_appointment: id_appointment,
         },
@@ -70,8 +70,8 @@ const updateAppointmentStatus = async (req, res) => {
 
     await pool.query(queries.updateAppointmentStatus, [status, id_appointment]);
     res.status(200).json({
-      results: "success",
-      message: "appointment update successfully",
+      results: "thanh cong",
+      message: "appointment cap nhat thanh cong",
       data: {
         id_appointment: id_appointment,
         status: status,
@@ -89,8 +89,8 @@ const deleteAppointment = async (req, res) => {
 
     if (!results) {
       res.status(404).json({
-        results: "fail",
-        message: "appointment with id not found",
+        results: "that bai",
+        message: "khong tim thay appointment voi id o duoi",
         data: {
           id_appointment: id_appointment,
         },
@@ -99,8 +99,8 @@ const deleteAppointment = async (req, res) => {
     }
     await pool.query(queries.deleteAppointment, [id_appointment]);
     res.status(200).json({
-      results: "success",
-      message: "appointment delete successfully",
+      results: "thanh cong",
+      message: "appointment xoa thanh cong",
       data: {
         id_appointment: id_appointment,
       },
