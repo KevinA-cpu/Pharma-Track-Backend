@@ -13,6 +13,16 @@ const checkAppointmentExist = async (id_appointment) => {
   }
 };
 
+const checkClinicExists = async (id_clinic) => {
+  try {
+    const results = await pool.query(queries.findClinicWithID, [id_clinic]);
+    if (!results.rows.length) return false;
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getAppointment = async (req, res) => {
   try {
     const results = await pool.query(queries.getAppointment);
@@ -24,7 +34,20 @@ const getAppointment = async (req, res) => {
 
 const insertAppointment = async (req, res) => {
   try {
-    const { time, doctor, test, number, address, status, id_clinic } = req.body;
+    const { time, doctor, test, number, address, status, id_clinic, id_user } =
+      req.body;
+    const results = await checkClinicExists(id_clinic);
+    if (!results) {
+      res.status(404).json({
+        results: "that bai",
+        message:
+          "khong tim thay clinic voi id tren, vi pham rang buoc khoa ngoai",
+        data: {
+          id_clinic: id_clinic,
+        },
+      });
+      return;
+    }
     await pool.query(queries.insertAppointment, [
       time,
       doctor,
@@ -33,6 +56,7 @@ const insertAppointment = async (req, res) => {
       address,
       status,
       id_clinic,
+      id_user,
     ]);
     res.status(200).json({
       results: "thanh cong",
@@ -45,6 +69,7 @@ const insertAppointment = async (req, res) => {
         address: address,
         status: status,
         id_clinic: id_clinic,
+        id_user: id_user,
       },
     });
   } catch (error) {
