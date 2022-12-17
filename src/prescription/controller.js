@@ -27,7 +27,7 @@ const getPrescription = async (req, res) => {
 
 const getPrescriptionByIDPrescription = async (req, res) => {
   try {
-    const { id_prescription } = req.body;
+    const { id_prescription } = JSON.parse(req.body);
     const results = await pool.query(queries.findPrescription, [
       id_prescription,
     ]);
@@ -46,7 +46,7 @@ const getPrescriptionByIDPrescription = async (req, res) => {
 
 // const getPrescriptionByDateMedical = async (req, res) => {
 //   try {
-//     const {date_medical} = req.body
+//     const {date_medical} = JSON.parse(req.body)
 //     const results = await pool.query(queries.getPrescriptionByDateMedical,[date_medical]);
 //     if(!results.rows.length)
 //     {
@@ -66,7 +66,7 @@ const getPrescriptionByIDPrescription = async (req, res) => {
 
 const insertPrescription = async (req, res) => {
   try {
-    const { id_prescription } = req.body;
+    const { id_prescription } = JSON.parse(req.body);
     const check = await checkPrescriptionExists(id_prescription);
     if (check === false) {
       await pool.query(queries.insertPrescription, [id_prescription]);
@@ -97,7 +97,7 @@ const insertPrescription = async (req, res) => {
 
 const updatePrescription = async (req, res) => {
   try {
-    const { id_prescription_update, id_prescription } = req.body;
+    const { id_prescription_update, id_prescription } = JSON.parse(req.body);
     const results = await checkPrescriptionExists(id_prescription);
 
     if (!results) {

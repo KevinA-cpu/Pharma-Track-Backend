@@ -14,7 +14,7 @@ router.post(
   "/tinh_thanhpho/quan_huyen/diachi",
   controller.Search_TinhThanhPho_QuanHuyen_DiaChi
 );
-router.post("/id", controller.findClinic);
+
 router.post("/", controller.insertClinic);
 
 router.put("/", controller.updateClinic);

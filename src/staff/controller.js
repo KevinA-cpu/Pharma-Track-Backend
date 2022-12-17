@@ -22,7 +22,7 @@ const getStaff = async (req, res) => {
 
 const insertStaff = async (req, res) => {
   try {
-    const { name, number, type, department, id_clinic } = req.body;
+    const { name, number, type, department, id_clinic } = JSON.parse(req.body);
     const results = await checkClinicExists(id_clinic);
     if (!results) {
       res.status(404).json({
@@ -60,7 +60,7 @@ const insertStaff = async (req, res) => {
 
 const updateStaffType = async (req, res) => {
   try {
-    const { name, type } = req.body;
+    const { name, type } = JSON.parse(req.body);
     const results = await checkStaffExist(name);
 
     if (!results) {
@@ -90,7 +90,7 @@ const updateStaffType = async (req, res) => {
 
 const deleteStaff = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name } = JSON.parse(req.body);
     const results = await checkStaffExist(name);
 
     if (!results) {
@@ -118,7 +118,7 @@ const deleteStaff = async (req, res) => {
 };
 const getDoctorByName = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name } = JSON.parse(req.body);
     const results = await pool.query(queries.getDoctorByName, [name]);
     res.status(200).json(results.rows);
   } catch {
@@ -128,7 +128,7 @@ const getDoctorByName = async (req, res) => {
 
 const getStaffByDepartment = async (req, res) => {
   try {
-    const { department } = req.body;
+    const { department } = JSON.parse(req.body);
     const results = await pool.query(queries.getStaffByDepartment, [
       department,
     ]);
@@ -140,7 +140,7 @@ const getStaffByDepartment = async (req, res) => {
 
 const getStaffByID = async (req, res) => {
   try {
-    const { id_staff } = req.body;
+    const { id_staff } = JSON.parse(req.body);
     const results = await pool.query(queries.getStaffByID, [id_staff]);
     res.status(200).json(results.rows);
   } catch (error) {
@@ -150,7 +150,7 @@ const getStaffByID = async (req, res) => {
 
 const getStaffByClinicID = async (req, res) => {
   try {
-    const { id_clinic } = req.body;
+    const { id_clinic } = JSON.parse(req.body);
     const results = await pool.query(queries.getStaffByClinicID, [id_clinic]);
     res.status(200).json(results.rows);
   } catch (error) {

@@ -23,7 +23,7 @@ const getClinic = async (req, res) => {
 
 const getClinicByID_Clinic = async (req, res) => {
   try {
-    const { id_clinic } = req.body;
+    const { id_clinic } = JSON.parse(req.body);
     const result = await pool.query(queries.findClinic, [id_clinic]);
     if (!result.rows.length) {
       res.status(401).json({
@@ -40,7 +40,7 @@ const getClinicByID_Clinic = async (req, res) => {
 
 const Search_TinhThanhPho = async (req, res) => {
   try {
-    const { province } = req.body;
+    const { province } = JSON.parse(req.body);
     const results = await pool.query(queries.Search_Province, [province]);
     if (!results.rows.length) {
       res.status(401).json({
@@ -57,7 +57,7 @@ const Search_TinhThanhPho = async (req, res) => {
 
 const Search_TinhThanhPho_QuanHuyen = async (req, res) => {
   try {
-    const { province, city } = req.body;
+    const { province, city } = JSON.parse(req.body);
     const results = await pool.query(queries.Search_Province_City, [
       province,
       city,
@@ -77,7 +77,7 @@ const Search_TinhThanhPho_QuanHuyen = async (req, res) => {
 
 const Search_TinhThanhPho_QuanHuyen_DiaChi = async (req, res) => {
   try {
-    const { province, city, address } = req.body;
+    const { province, city, address } = JSON.parse(req.body);
     const results = await pool.query(queries.Search_Province_City_Adress, [
       province,
       city,
@@ -108,7 +108,7 @@ const insertClinic = async (req, res) => {
       status_clinic,
       lat,
       lng,
-    } = req.body;
+    } = JSON.parse(req.body);
     const checkexists = await checkClinicExists(id_clinic);
     if (checkexists === false) {
       await pool.query(queries.insertClinic, [
@@ -153,7 +153,7 @@ const insertClinic = async (req, res) => {
 
 const updateClinic = async (req, res) => {
   try {
-    const { name_clinic, id_clinic } = req.body;
+    const { name_clinic, id_clinic } = JSON.parse(req.body);
     const results = await checkClinicExists(id_clinic);
 
     if (!results) {
@@ -183,7 +183,7 @@ const updateClinic = async (req, res) => {
 
 const deleteClinic = async (req, res) => {
   try {
-    const { id_clinic } = req.body;
+    const { id_clinic } = JSON.parse(req.body);
     const results = await checkClinicExists(id_clinic);
 
     if (!results) {
@@ -210,15 +210,6 @@ const deleteClinic = async (req, res) => {
   }
 };
 
-const findClinic = async (req, res) => {
-  try {
-    const { id_clinic } = req.body;
-    const results = await pool.query(queries.findClinic, [id_clinic]);
-    res.status(200).json(results.rows);
-  } catch (error) {
-    throw error;
-  }
-};
 export default {
   getClinic,
   getClinicByID_Clinic,
@@ -228,5 +219,4 @@ export default {
   insertClinic,
   updateClinic,
   deleteClinic,
-  findClinic,
 };
