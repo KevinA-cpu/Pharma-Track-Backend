@@ -3,7 +3,7 @@ import controller from "./controller.js";
 
 const router = Router();
 
-router.get("/getDoctorShifts", controller.getDoctorAvailableShifts);
+router.post("/getDoctorShifts", controller.getDoctorAvailableShifts);
 
 router.put("/updateDoctorShift", controller.updateDoctorShiftStatus);
 

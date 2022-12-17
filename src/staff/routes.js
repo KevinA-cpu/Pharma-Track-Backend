@@ -5,13 +5,13 @@ const router = Router();
 
 router.get("/", controller.getStaff);
 
-router.get("/doctorName", controller.getDoctorByName);
+router.post("/doctorName", controller.getDoctorByName);
 
-router.get("/staffDepartment", controller.getStaffByDepartment);
+router.post("/staffDepartment", controller.getStaffByDepartment);
 
-router.get("/staffByID", controller.getStaffByID);
+router.post("/staffByID", controller.getStaffByID);
 
-router.get("/staffByClinicID", controller.getStaffByClinicID);
+router.post("/staffByClinicID", controller.getStaffByClinicID);
 
 router.post("/", controller.insertStaff);
 

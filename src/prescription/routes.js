@@ -4,7 +4,7 @@ import controller from "./controller.js";
 const router = Router();
 
 router.get("/", controller.getPrescription);
-router.get("/id_prescription", controller.getPrescriptionByIDPrescription);
+router.post("/id_prescription", controller.getPrescriptionByIDPrescription);
 // router.get("/date_medical", controller.getPrescriptionByDateMedical);
 
 router.post("/", controller.insertPrescription);
