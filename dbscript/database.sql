@@ -55,7 +55,8 @@ CREATE TABLE public.appointment (
     number character varying(50),
     address character varying(50),
     status character varying(25),
-    id_clinic character varying
+    id_clinic character varying,
+    id_user character varying
 );
 
 
@@ -125,8 +126,9 @@ ALTER TABLE public.staff OWNER TO pharma_track_user;
 -- Data for Name: appointment; Type: TABLE DATA; Schema: public; Owner: pharma_track_user
 --
 
-COPY public.appointment (id_appointment, "time", doctor, test, number, address, status, id_clinic) FROM stdin;
-15834ecd-ae32-42d3-9671-53bdbe3f65bf	Test	Test	Test	Test	Test	Test	Test
+COPY public.appointment (id_appointment, "time", doctor, test, number, address, status, id_clinic, id_user) FROM stdin;
+15834ecd-ae32-42d3-9671-53bdbe3f65bf	Test	Test	Test	Test	Test	Test	CLC863421	\N
+8c594fcd-c04e-4e32-92e9-fddaf240ea50	9:00 - 10:00	Test1	Test1	Test1	Test1	Test1	CLC317320	Test1
 \.
 
 
@@ -356,7 +358,7 @@ PRES217540
 --
 
 COPY public.staff (id_staff, name, number, type, department, id_clinic) FROM stdin;
-230d58f8-0c7b-4274-8d5e-2f4574f0b1bf	test	test	test	test	test
+230d58f8-0c7b-4274-8d5e-2f4574f0b1bf	test	test	doctor	test	test
 \.
 
 
@@ -369,11 +371,27 @@ ALTER TABLE ONLY public.appointment
 
 
 --
+-- Name: clinic clinic_pkey; Type: CONSTRAINT; Schema: public; Owner: pharma_track_user
+--
+
+ALTER TABLE ONLY public.clinic
+    ADD CONSTRAINT clinic_pkey PRIMARY KEY (id_clinic);
+
+
+--
 -- Name: staff staff_pkey; Type: CONSTRAINT; Schema: public; Owner: pharma_track_user
 --
 
 ALTER TABLE ONLY public.staff
     ADD CONSTRAINT staff_pkey PRIMARY KEY (id_staff);
+
+
+--
+-- Name: appointment fk_appointment_clinic; Type: FK CONSTRAINT; Schema: public; Owner: pharma_track_user
+--
+
+ALTER TABLE ONLY public.appointment
+    ADD CONSTRAINT fk_appointment_clinic FOREIGN KEY (id_clinic) REFERENCES public.clinic(id_clinic);
 
 
 --

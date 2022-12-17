@@ -1,13 +1,15 @@
 import Express from "express";
 import staffRouter from "./src/staff/routes.js";
 import appointmentRouter from "./src/appointment/routes.js";
-import clinicRouter from "./src/clinic/routes.js"
-import prescriptionRouter from "./src/prescription/routes.js"
+import clinicRouter from "./src/clinic/routes.js";
+import prescriptionRouter from "./src/prescription/routes.js";
 import doctortimeRouter from "./src/doctortime/routes.js";
+import cors from "cors";
 
 const App = Express();
 
 App.use(Express.json());
+App.use(cors());
 
 App.get("/", (req, res) => {
   res.send("placeholder");
