@@ -8,7 +8,7 @@ import cors from "cors";
 
 const App = Express();
 
-App.use(Express.json());
+App.use(Express.text());
 App.use(cors());
 
 App.get("/", (req, res) => {
