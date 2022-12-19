@@ -108,6 +108,7 @@ const insertClinic = async (req, res) => {
       status_clinic,
       lat,
       lng,
+      ward
     } = JSON.parse(req.body);
     const checkexists = await checkClinicExists(id_clinic);
     if (checkexists === false) {
@@ -121,6 +122,7 @@ const insertClinic = async (req, res) => {
         status_clinic,
         lat,
         lng,
+        ward
       ]);
       res.status(200).json({
         results: "thanh cong",
@@ -135,6 +137,7 @@ const insertClinic = async (req, res) => {
           status_clinic: status_clinic,
           lat: lat,
           lng: lng,
+          ward:ward
         },
       });
     } else {
