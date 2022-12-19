@@ -51,7 +51,7 @@ const insertStaff = async (req, res) => {
       results: "thanh cong",
       message: "them staff thanh cong",
       data: {
-        id_staff: results1.rows,
+        id_staff: results1.rows[0],
         name: name,
         number: number,
         type: type,
