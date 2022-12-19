@@ -26,7 +26,7 @@ const getClinicByID_Clinic = async (req, res) => {
     const { id_clinic } = JSON.parse(req.body);
     const result = await pool.query(queries.findClinic, [id_clinic]);
     if (!result.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "that bai",
         reason: `phong kham voi id ${id_clinic} khong tim thay`,
       });
@@ -43,7 +43,7 @@ const Search_TinhThanhPho = async (req, res) => {
     const { province } = JSON.parse(req.body);
     const results = await pool.query(queries.Search_Province, [province]);
     if (!results.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "that bai",
         reason: `khong co phong kham voi ten ${province} trong database`,
       });
@@ -63,7 +63,7 @@ const Search_TinhThanhPho_QuanHuyen = async (req, res) => {
       city,
     ]);
     if (!results.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "that bai",
         reason: `Khong ton tai phong kham o tinh/thanhpho: ${province} va quan/huyen: ${city} trong database`,
       });
@@ -84,7 +84,7 @@ const Search_TinhThanhPho_QuanHuyen_DiaChi = async (req, res) => {
       address,
     ]);
     if (!results.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "that bai",
         reason: `Khong ton tai phong kham o province ${province} va city ${city} va dia chi = ${address} trong database`,
       });
@@ -108,6 +108,7 @@ const insertClinic = async (req, res) => {
       status_clinic,
       lat,
       lng,
+      ward
     } = JSON.parse(req.body);
     const checkexists = await checkClinicExists(id_clinic);
     if (checkexists === false) {
@@ -121,6 +122,7 @@ const insertClinic = async (req, res) => {
         status_clinic,
         lat,
         lng,
+        ward
       ]);
       res.status(200).json({
         results: "thanh cong",
@@ -135,6 +137,7 @@ const insertClinic = async (req, res) => {
           status_clinic: status_clinic,
           lat: lat,
           lng: lng,
+          ward:ward
         },
       });
     } else {
@@ -151,7 +154,7 @@ const insertClinic = async (req, res) => {
   }
 };
 
-const updateClinic = async (req, res) => {
+const updateClinic = async (req, res) => {    // update theo ten clinic
   try {
     const { name_clinic, id_clinic } = JSON.parse(req.body);
     const results = await checkClinicExists(id_clinic);
@@ -180,6 +183,93 @@ const updateClinic = async (req, res) => {
     throw error;
   }
 };
+
+const updateClinicStatus = async(req,res) => {      // update trang thai clinic
+  try {
+    const { status_clinic, id_clinic } = JSON.parse(req.body);
+    const results = await checkClinicExists(id_clinic);
+
+    if (!results) {
+      res.status(404).json({
+        results: "that bai",
+        message: "khong tim thay phong kham voi ten",
+        data: {
+          name_clinic: name_clinic,
+        },
+      });
+      return;
+    }
+
+    await pool.query(queries.updateClinic, [status_clinic, id_clinic]);
+    res.status(200).json({
+      results: "thanh cong",
+      message: "phong kham cap nhat thanh cong",
+      data: {
+        status_clinic:status_clinic,
+        id_clinic: id_clinic,
+      },
+    });
+  } catch (error) {
+    throw error;
+  } try {
+    const { name_clinic, id_clinic } = JSON.parse(req.body);
+    const results = await checkClinicExists(id_clinic);
+
+    if (!results) {
+      res.status(404).json({
+        results: "that bai",
+        message: "khong tim thay phong kham voi ten",
+        data: {
+          name_clinic: name_clinic,
+        },
+      });
+      return;
+    }
+
+    await pool.query(queries.updateClinic, [name_clinic, id_clinic]);
+    res.status(200).json({
+      results: "thanh cong",
+      message: "phong kham cap nhat thanh cong",
+      data: {
+        name_clinic: name_clinic,
+        id_clinic: id_clinic,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+const updateClinicByAttribute = async(req,res) => {
+  try {
+    const {Attribute,content,id_clinic} = JSON.parse(req.body);
+    const result = checkClinicExists(id_clinic);
+    if(!result)
+    {
+      res.status(404).json({
+        results: "that bai",
+        message: "khong tim thay phong kham voi id o duoi",
+        data: {
+          id_clinic: id_clinic
+        },
+      });
+      return;
+    }
+    else
+    {
+      await pool.query(`UPDATE clinic SET ${Attribute} = $1 WHERE id_clinic = $2`,[content,id_clinic]);
+      res.status(200).json({
+        mesage: "Update successfullt",
+        data: {
+          id_clinic:id_clinic,
+          Attribute:content
+        }
+      })
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
 const deleteClinic = async (req, res) => {
   try {
@@ -218,5 +308,7 @@ export default {
   Search_TinhThanhPho_QuanHuyen_DiaChi,
   insertClinic,
   updateClinic,
+  updateClinicStatus,
+  updateClinicByAttribute,
   deleteClinic,
 };

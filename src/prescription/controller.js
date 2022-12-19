@@ -32,7 +32,7 @@ const getPrescriptionByIDPrescription = async (req, res) => {
       id_prescription,
     ]);
     if (!results.rows.length) {
-      res.status(401).json({
+      res.status(404).json({
         result: "That bai",
         reason: `Khong co don thuoc nao co ID ${id_prescription}`,
       });
@@ -43,26 +43,6 @@ const getPrescriptionByIDPrescription = async (req, res) => {
     throw error;
   }
 };
-
-// const getPrescriptionByDateMedical = async (req, res) => {
-//   try {
-//     const {date_medical} = JSON.parse(req.body)
-//     const results = await pool.query(queries.getPrescriptionByDateMedical,[date_medical]);
-//     if(!results.rows.length)
-//     {
-//       res.status(404).json({
-//         result: "That bai",
-//         reason: `Khong co don thuoc duoc thuc hien vao ngay ${date_medical}`
-//       })
-//     }
-//     else
-//     {
-//       res.status(200).json(results.rows);
-//     }
-//   } catch (error) {
-//     throw error;
-//   }
-// };
 
 const insertPrescription = async (req, res) => {
   try {
@@ -80,7 +60,7 @@ const insertPrescription = async (req, res) => {
         },
       });
     } else {
-      res.status(401).json({
+      res.status(404).json({
         results: "that bai",
         message: "da ton tai don thuoc voi id o duoi",
         data: {
@@ -97,7 +77,7 @@ const insertPrescription = async (req, res) => {
 
 const updatePrescription = async (req, res) => {
   try {
-    const { id_prescription_update, id_prescription } = JSON.parse(req.body);
+    const { id_prescription } = JSON.parse(req.body);
     const results = await checkPrescriptionExists(id_prescription);
 
     if (!results) {
@@ -111,15 +91,11 @@ const updatePrescription = async (req, res) => {
       return;
     }
 
-    await pool.query(queries.updatePrescription, [
-      id_prescription_update,
-      id_prescription,
-    ]);
+    await pool.query(queries.updatePrescription, [id_prescription,id_prescription,]);
     res.status(200).json({
       results: "thanh cong",
       message: "don thuoc cap nhat thanh cong",
       data: {
-        // date_medical: date_medical,
         id_prescription: id_prescription,
       },
     });
@@ -130,7 +106,7 @@ const updatePrescription = async (req, res) => {
 
 const deletePrescription = async (req, res) => {
   try {
-    const { id_prescription } = req.body;
+    const { id_prescription } = JSON.parse(req.body);
     const results = await checkPrescriptionExists(id_prescription);
     console.log(results);
     if (!results) {
