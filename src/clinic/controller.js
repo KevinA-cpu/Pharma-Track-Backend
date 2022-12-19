@@ -151,7 +151,7 @@ const insertClinic = async (req, res) => {
   }
 };
 
-const updateClinic = async (req, res) => {
+const updateClinic = async (req, res) => {    // update theo ten clinic
   try {
     const { name_clinic, id_clinic } = JSON.parse(req.body);
     const results = await checkClinicExists(id_clinic);
@@ -180,6 +180,68 @@ const updateClinic = async (req, res) => {
     throw error;
   }
 };
+
+const updateClinicStatus = async(req,res) => {      // update trang thai clinic
+  try {
+    const { id_clinic , status_clinic } = JSON.parse(req.body);
+    const result = await checkClinicExists(id_clinic);
+    if(!result)
+    {
+      res.status(404).json({
+        results: "that bai",
+        message: "khong tim thay phong kham voi id o duoi",
+        data: {
+          id_clinic: id_clinic
+        },
+      });
+      return;
+    }
+    else
+    {
+      await pool.query(queries.updateClinic_Status,[id_clinic,status_clinic]);
+      res.status(200).json({
+        mesage: "Update successfullt",
+        data: {
+          id_clinic:id_clinic,
+          status_clinic:status_clinic
+        }
+      })
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
+const updateClinicByAttribute = async(req,res) => {
+  try {
+    const {Attribute,content,id_clinic} = JSON.parse(req.body);
+    const result = checkClinicExists(id_clinic);
+    if(!result)
+    {
+      res.status(404).json({
+        results: "that bai",
+        message: "khong tim thay phong kham voi id o duoi",
+        data: {
+          id_clinic: id_clinic
+        },
+      });
+      return;
+    }
+    else
+    {
+      await pool.query(`UPDATE clinic SET ${Attribute} = $1 WHERE id_clinic = $2`,[content,id_clinic]);
+      res.status(200).json({
+        mesage: "Update successfullt",
+        data: {
+          id_clinic:id_clinic,
+          Attribute:content
+        }
+      })
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
 const deleteClinic = async (req, res) => {
   try {
@@ -218,5 +280,7 @@ export default {
   Search_TinhThanhPho_QuanHuyen_DiaChi,
   insertClinic,
   updateClinic,
+  updateClinicStatus,
+  updateClinicByAttribute,
   deleteClinic,
 };

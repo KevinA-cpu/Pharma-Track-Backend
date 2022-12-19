@@ -4,7 +4,7 @@ import controller from "./controller.js";
 const router = Router();
 
 router.get("/", controller.getClinic);
-router.post("/id_clinic", controller.getClinicByID_Clinic);
+router.get("/id_clinic", controller.getClinicByID_Clinic);
 router.post("/tinh_thanhpho", controller.Search_TinhThanhPho);
 router.post(
   "/tinh_thanhpho/quan_huyen",
@@ -18,6 +18,8 @@ router.post(
 router.post("/", controller.insertClinic);
 
 router.put("/", controller.updateClinic);
+router.put("/status_clinic",controller.updateClinicStatus)
+router.put("/updateByAttribute",controller.updateClinicStatus)
 
 router.delete("/", controller.deleteClinic);
 
