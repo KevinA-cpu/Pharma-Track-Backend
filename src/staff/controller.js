@@ -1,9 +1,9 @@
 import pool from "../../db.js";
 import queries from "./queries.js";
 import { checkClinicExists } from "../checkForeignKeyContraint.js";
-const checkStaffExist = async (name) => {
+const checkStaffExist = async (id_staff) => {
   try {
-    const results = await pool.query(queries.findStaffWithName, [name]);
+    const results = await pool.query(queries.getStaffByID, [id_staff]);
     if (!results.rows.length) return false;
     return true;
   } catch (error) {
@@ -96,26 +96,26 @@ const updateStaffType = async (req, res) => {
 
 const deleteStaff = async (req, res) => {
   try {
-    const { name } = JSON.parse(req.body);
-    const results = await checkStaffExist(name);
+    const { id_staff } = JSON.parse(req.body);
+    const results = await checkStaffExist(id_staff);
 
     if (!results) {
       res.status(404).json({
         results: "that bai",
         message: "khong tim thay staff voi ten o duoi",
         data: {
-          name: name,
+          id_staff: id_staff,
         },
       });
       return;
     }
 
-    await pool.query(queries.deleteStaff, [name]);
+    await pool.query(queries.deleteStaff, [id_staff]);
     res.status(200).json({
       results: "thanh cong",
       message: "xoa staff thanh cong",
       data: {
-        name: name,
+        id_staff: id_staff,
       },
     });
   } catch (error) {
