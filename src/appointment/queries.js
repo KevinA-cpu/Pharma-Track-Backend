@@ -6,11 +6,13 @@ const updateAppointmentStatus =
 const deleteAppointment = "DELETE FROM appointment WHERE id_appointment = $1;";
 const findAppointmentWithID =
   "SELECT * FROM appointment WHERE id_appointment = $1;";
-
+const findAppointmentID =
+  "SELECT id_appointment FROM appointment WHERE time = $1 AND doctor = $2 AND id_clinic = $3 LIMIT 1;";
 export default {
   getAppointment,
   insertAppointment,
   updateAppointmentStatus,
   deleteAppointment,
   findAppointmentWithID,
+  findAppointmentID,
 };

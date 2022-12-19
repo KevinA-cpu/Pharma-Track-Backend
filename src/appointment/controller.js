@@ -25,7 +25,7 @@ const getAppointment = async (req, res) => {
 const insertAppointment = async (req, res) => {
   try {
     const { time, doctor, test, number, address, status, id_clinic, id_user } =
-      req.body;
+      JSON.parse(req.body);
     const results = await checkClinicExists(id_clinic);
     if (!results) {
       res.status(404).json({
@@ -48,10 +48,16 @@ const insertAppointment = async (req, res) => {
       id_clinic,
       id_user,
     ]);
+    const results1 = await pool.query(queries.findAppointmentID, [
+      time,
+      doctor,
+      id_clinic,
+    ]);
     res.status(200).json({
       results: "thanh cong",
       message: "them appointment thanh cong",
       data: {
+        id_appointment: results1.rows[0].id_appointment,
         time: time,
         doctor: doctor,
         test: test,
@@ -69,7 +75,7 @@ const insertAppointment = async (req, res) => {
 
 const updateAppointmentStatus = async (req, res) => {
   try {
-    const { id_appointment, status } = req.body;
+    const { id_appointment, status } = JSON.parse(req.body);
     const results = await checkAppointmentExist(id_appointment);
 
     if (!results) {
