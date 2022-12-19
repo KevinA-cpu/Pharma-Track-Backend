@@ -18,6 +18,8 @@ router.post(
 router.post("/", controller.insertClinic);
 
 router.put("/", controller.updateClinic);
+router.put("/status", controller.updateClinicStatus)
+router.put("/attribute",controller.updateClinicByAttribute)
 
 router.delete("/", controller.deleteClinic);
 
