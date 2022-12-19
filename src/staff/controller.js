@@ -42,7 +42,7 @@ const insertStaff = async (req, res) => {
       department,
       id_clinic,
     ]);
-    const id_staff = await pool.query(queries.findStaffID, [
+    const results1 = await pool.query(queries.findStaffID, [
       name,
       number,
       id_clinic,
@@ -51,7 +51,7 @@ const insertStaff = async (req, res) => {
       results: "thanh cong",
       message: "them staff thanh cong",
       data: {
-        id_staff: id_staff,
+        id_staff: results1.rows,
         name: name,
         number: number,
         type: type,
