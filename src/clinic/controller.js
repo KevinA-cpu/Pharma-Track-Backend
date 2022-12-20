@@ -154,6 +154,37 @@ const insertClinic = async (req, res) => {
   }
 };
 
+const updateMultipleClinic = async(req,res) => {
+  try {
+    const {name_clinic,province,city,address,id_clinic} = JSON.parse(req.body);
+    const results = await checkClinicExists(id_clinic);
+    if (!results) {
+      res.status(404).json({
+        results: "that bai",
+        message: "khong tim thay phong kham voi ten",
+        data: {
+          id_clinic: id_clinic,
+        },
+      });
+      return;
+    }
+    await pool.query(queries.updateMultipleClinic,[name_clinic,province,city,address,id_clinic]);
+    res.status(200).json({
+      results: "thanh cong",
+      message: "phong kham cap nhat thanh cong",
+      data: {
+        name_clinic: name_clinic,
+        province:province,
+        city:city,
+        address:address,
+        id_clinic: id_clinic,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
 const updateClinic = async (req, res) => {    // update theo ten clinic
   try {
     const { name_clinic, id_clinic } = JSON.parse(req.body);
@@ -311,4 +342,5 @@ export default {
   updateClinicStatus,
   updateClinicByAttribute,
   deleteClinic,
+  updateMultipleClinic
 };
