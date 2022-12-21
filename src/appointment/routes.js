@@ -5,6 +5,8 @@ const router = Router();
 
 router.get("/", controller.getAppointment);
 
+router.get("/id_user", controller.getAppointmentWithIdUser);
+
 router.post("/", controller.insertAppointment);
 
 router.put("/", controller.updateAppointmentStatus);
