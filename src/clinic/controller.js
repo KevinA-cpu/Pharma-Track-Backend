@@ -156,7 +156,7 @@ const insertClinic = async (req, res) => {
 
 const updateMultipleClinic = async(req,res) => {
   try {
-    const {name_clinic,province,city,address,status_clinic,id_clinic} = JSON.parse(req.body);
+    const {name_clinic,province,city,address,status_clinic,lat,lng,id_clinic} = JSON.parse(req.body);
     const results = await checkClinicExists(id_clinic);
     if (!results) {
       res.status(404).json({
@@ -168,7 +168,7 @@ const updateMultipleClinic = async(req,res) => {
       });
       return;
     }
-    await pool.query(queries.updateMultipleClinic,[name_clinic,province,city,address,status_clinic,id_clinic]);
+    await pool.query(queries.updateMultipleClinic,[name_clinic,province,city,address,status_clinic,lat,lng,id_clinic]);
     res.status(200).json({
       results: "thanh cong",
       message: "phong kham cap nhat thanh cong",
@@ -178,6 +178,8 @@ const updateMultipleClinic = async(req,res) => {
         city:city,
         address:address,
         status_clinic:status_clinic,
+        lat:lat,
+        lng:lng,
         id_clinic: id_clinic,
       },
     });
