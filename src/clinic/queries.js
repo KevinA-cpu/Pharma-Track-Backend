@@ -11,6 +11,7 @@ const updateClinic = "UPDATE clinic SET name_clinic = $1 WHERE id_clinic = $2;";
 const updateClinic_Status = "UPDATE clinic SET status_clinic = $1 where id_clinic = $2";
 const deleteClinic = "DELETE FROM clinic WHERE id_clinic = $1;";
 const findClinic = "SELECT * FROM clinic WHERE id_clinic = $1;";
+const updateMultipleClinic = "UPDATE clinic SET name_clinic = $1,province = $2,city = $3,address = $4,status_clinic = $5,lat = $6,lng = $7 WHERE id_clinic = $8;"
 export default {
   getClinic,
   Search_Province,
@@ -21,4 +22,5 @@ export default {
   updateClinic_Status,
   deleteClinic,
   findClinic,
+  updateMultipleClinic
 };

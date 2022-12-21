@@ -17,7 +17,7 @@ router.post(
 
 router.post("/", controller.insertClinic);
 
-router.put("/", controller.updateClinic);
+router.put("/", controller.updateMultipleClinic);
 router.put("/status", controller.updateClinicStatus)
 router.put("/attribute",controller.updateClinicByAttribute)
 
