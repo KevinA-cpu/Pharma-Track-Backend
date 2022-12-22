@@ -30,7 +30,7 @@ router.post("/create_payment_url", function (req, res, next) {
   var createDate = dateFormat(date, "yyyymmddHHmmss");
   var orderId = dateFormat(date, "HHmmss");
   // var amount = req.body.amount;
-  var bankCode = req.body.bankCode;
+  var bankCode = "NCB";
 
   //   var orderInfo = req.body.orderDescription;
   //   var orderType = req.body.orderType;
