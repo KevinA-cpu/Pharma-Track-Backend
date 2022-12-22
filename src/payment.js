@@ -17,7 +17,7 @@ router.get("/create_payment_url", function (req, res, next) {
   });
 });
 
-router.get("/create_payment_url", function (req, res, next) {
+router.get("/create_payment_url1", function (req, res, next) {
   var ipAddr = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
   var tmnCode = config.get("vnp_TmnCode");
