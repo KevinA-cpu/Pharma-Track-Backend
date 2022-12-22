@@ -164,6 +164,85 @@ const getStaffByClinicID = async (req, res) => {
   }
 };
 
+const insertStaffPlusDoctorTime = async (req, res) => {
+  try {
+    const { name, number, department, id_clinic } = JSON.parse(req.body);
+    await pool.query(queries.insertStaff, [
+      name,
+      number,
+      "Doctor",
+      department,
+      id_clinic,
+    ]);
+
+    const id_doctortime = (
+      await pool.query(queries.findStaffID, [name, number, id_clinic])
+    ).rows[0].id_staff;
+
+    await pool.query(queries.insertDoctorTime, [
+      id_doctortime,
+      name,
+      "8:00 - 9:00",
+      false,
+    ]);
+    await pool.query(queries.insertDoctorTime, [
+      id_doctortime,
+      name,
+      "9:00 - 10:00",
+      false,
+    ]);
+    await pool.query(queries.insertDoctorTime, [
+      id_doctortime,
+      name,
+      "10:00 - 11:00",
+      false,
+    ]);
+    await pool.query(queries.insertDoctorTime, [
+      id_doctortime,
+      name,
+      "11:00 - 12:00",
+      false,
+    ]);
+    await pool.query(queries.insertDoctorTime, [
+      id_doctortime,
+      name,
+      "13:00 - 14:00",
+      false,
+    ]);
+    await pool.query(queries.insertDoctorTime, [
+      id_doctortime,
+      name,
+      "14:00 - 15:00",
+      false,
+    ]);
+    await pool.query(queries.insertDoctorTime, [
+      id_doctortime,
+      name,
+      "15:00 - 16:00",
+      false,
+    ]);
+    await pool.query(queries.insertDoctorTime, [
+      id_doctortime,
+      name,
+      "16:00 - 17:00",
+      false,
+    ]);
+    res.status(200).json({
+      result: "thanh cong",
+      message: "da them vao staff va doctortime",
+      data: {
+        id_staff: id_doctortime,
+        name: name,
+        number: number,
+        department: department,
+        id_clinic: id_clinic,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   getStaff,
   insertStaff,
@@ -173,4 +252,5 @@ export default {
   getStaffByDepartment,
   getStaffByID,
   getStaffByClinicID,
+  insertStaffPlusDoctorTime,
 };

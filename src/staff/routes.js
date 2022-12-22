@@ -15,6 +15,8 @@ router.post("/staffByClinicID", controller.getStaffByClinicID);
 
 router.post("/", controller.insertStaff);
 
+router.post("/insertStaffPlusDoctorTime", controller.insertStaffPlusDoctorTime);
+
 router.put("/", controller.updateStaffType);
 
 router.delete("/", controller.deleteStaff);

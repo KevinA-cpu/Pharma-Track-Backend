@@ -11,6 +11,8 @@ const getStaffByID = "SELECT * FROM staff WHERE id_staff = $1;";
 const getStaffByClinicID = "SELECT * FROM staff WHERE id_clinic = $1;";
 const findStaffID =
   "SELECT id_staff FROM staff WHERE name = $1 AND number = $2 AND id_clinic = $3 LIMIT 1;";
+const insertDoctorTime =
+  "INSERT INTO doctortime (id_doctortime, doctor, shift, status) VALUES($1, $2, $3, $4)";
 export default {
   getStaff,
   insertStaff,
@@ -21,4 +23,5 @@ export default {
   getStaffByID,
   getStaffByClinicID,
   findStaffID,
+  insertDoctorTime,
 };
