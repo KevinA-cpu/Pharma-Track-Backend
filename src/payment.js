@@ -17,7 +17,7 @@ router.get("/create_payment_url", function (req, res, next) {
   });
 });
 
-router.post("/create_payment_url", function (req, res, next) {
+router.get("/create_payment_url", function (req, res, next) {
   var ipAddr = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
   var tmnCode = config.get("vnp_TmnCode");
@@ -65,7 +65,7 @@ router.post("/create_payment_url", function (req, res, next) {
   vnp_Params["vnp_SecureHash"] = signed;
   vnpUrl += "?" + QueryString.stringify(vnp_Params, { encode: false });
 
-  res.redirect(vnpUrl);
+  res.red3irect(vnpUrl);
 });
 
 function sortObject(obj) {
