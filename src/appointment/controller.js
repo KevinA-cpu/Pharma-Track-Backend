@@ -1,6 +1,9 @@
 import pool from "../../db.js";
 import queries from "./queries.js";
-import { checkClinicExists } from "../checkForeignKeyContraint.js";
+import {
+  checkClinicExists,
+  checkStaffExists,
+} from "../checkForeignKeyContraint.js";
 const checkAppointmentExist = async (id_appointment) => {
   try {
     const results = await pool.query(queries.findAppointmentWithID, [
@@ -24,10 +27,19 @@ const getAppointment = async (req, res) => {
 
 const insertAppointment = async (req, res) => {
   try {
-    const { time, doctor, test, number, address, status, id_clinic, id_user } =
-      JSON.parse(req.body);
-    const results = await checkClinicExists(id_clinic);
-    if (!results) {
+    const {
+      time,
+      doctor,
+      test,
+      number,
+      address,
+      status,
+      id_clinic,
+      id_user,
+      id_staff,
+    } = JSON.parse(req.body);
+
+    if (!(await checkClinicExists(id_clinic))) {
       res.status(404).json({
         results: "that bai",
         message:
@@ -38,6 +50,19 @@ const insertAppointment = async (req, res) => {
       });
       return;
     }
+
+    if (!(await checkStaffExists(id_staff))) {
+      res.status(404).json({
+        results: "that bai",
+        message:
+          "khong tim thay staff voi id tren, vi pham rang buoc khoa ngoai",
+        data: {
+          id_clinic: id_clinic,
+        },
+      });
+      return;
+    }
+
     await pool.query(queries.insertAppointment, [
       time,
       doctor,
@@ -47,11 +72,13 @@ const insertAppointment = async (req, res) => {
       status,
       id_clinic,
       id_user,
+      id_staff,
     ]);
     const results1 = await pool.query(queries.findAppointmentID, [
       time,
       doctor,
       id_clinic,
+      id_staff,
     ]);
     res.status(200).json({
       results: "thanh cong",
@@ -66,6 +93,7 @@ const insertAppointment = async (req, res) => {
         status: status,
         id_clinic: id_clinic,
         id_user: id_user,
+        id_staff: id_staff,
       },
     });
   } catch (error) {
@@ -143,10 +171,36 @@ const getAppointmentWithIdUser = async (req, res) => {
   }
 };
 
+const getAppointmentByIdClinic = async (req, res) => {
+  try {
+    const id_clinic = req.query.id_clinic;
+    const results = await pool.query(queries.getAppointmentByIdClinic, [
+      id_clinic,
+    ]);
+    res.status(200).json(results.rows);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getAppointmentByIdStaff = async (req, res) => {
+  try {
+    const id_staff = req.query.id_staff;
+    const results = await pool.query(queries.getAppointmentByIdStaff, [
+      id_staff,
+    ]);
+    res.status(200).json(results.rows);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   getAppointment,
   insertAppointment,
   updateAppointmentStatus,
   deleteAppointment,
   getAppointmentWithIdUser,
+  getAppointmentByIdClinic,
+  getAppointmentByIdStaff,
 };

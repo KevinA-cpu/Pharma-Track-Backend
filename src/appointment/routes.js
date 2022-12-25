@@ -7,6 +7,10 @@ router.get("/", controller.getAppointment);
 
 router.get("/id_user", controller.getAppointmentWithIdUser);
 
+router.get("/id_clinic", controller.getAppointmentByIdClinic);
+
+router.get("/id_staff", controller.getAppointmentByIdStaff);
+
 router.post("/", controller.insertAppointment);
 
 router.put("/", controller.updateAppointmentStatus);
