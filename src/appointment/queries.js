@@ -13,6 +13,8 @@ const getAppointmentWithIdUser =
 const getAppointmentByIdClinic =
   "SELECT * FROM appointment WHERE id_clinic = $1";
 const getAppointmentByIdStaff = "SELECT * FROM appointment WHERE id_staff = $1";
+const getAppointmentByIdAppointment =
+  "SELECT * FROM appointment WHERE id_appointment = $1";
 export default {
   getAppointment,
   getAppointmentWithIdUser,
@@ -23,4 +25,5 @@ export default {
   findAppointmentID,
   getAppointmentByIdClinic,
   getAppointmentByIdStaff,
+  getAppointmentByIdAppointment,
 };

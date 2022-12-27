@@ -11,6 +11,8 @@ router.get("/id_clinic", controller.getAppointmentByIdClinic);
 
 router.get("/id_staff", controller.getAppointmentByIdStaff);
 
+router.get("/id_appointment", controller.getAppointmentByIdAppointment);
+
 router.post("/", controller.insertAppointment);
 
 router.put("/", controller.updateAppointmentStatus);

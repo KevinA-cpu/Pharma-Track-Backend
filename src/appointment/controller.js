@@ -195,6 +195,18 @@ const getAppointmentByIdStaff = async (req, res) => {
   }
 };
 
+const getAppointmentByIdAppointment = async (req, res) => {
+  try {
+    const id_appointment = req.query.id_appointment;
+    const results = await pool.query(queries.getAppointmentByIdAppointment, [
+      id_appointment,
+    ]);
+    res.status(200).json(results.rows);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default {
   getAppointment,
   insertAppointment,
@@ -203,4 +215,5 @@ export default {
   getAppointmentWithIdUser,
   getAppointmentByIdClinic,
   getAppointmentByIdStaff,
+  getAppointmentByIdAppointment,
 };
