@@ -102,7 +102,7 @@ const deleteStaff = async (req, res) => {
     if (!results) {
       res.status(404).json({
         results: "that bai",
-        message: "khong tim thay staff voi ten o duoi",
+        message: "khong tim thay staff voi id o duoi",
         data: {
           id_staff: id_staff,
         },
@@ -111,9 +111,10 @@ const deleteStaff = async (req, res) => {
     }
 
     await pool.query(queries.deleteStaff, [id_staff]);
+    await pool.query(queries.deleteDoctorTime, [id_staff]);
     res.status(200).json({
       results: "thanh cong",
-      message: "xoa staff thanh cong",
+      message: "xoa staff va doctortime thanh cong",
       data: {
         id_staff: id_staff,
       },

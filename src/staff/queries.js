@@ -13,11 +13,13 @@ const findStaffID =
   "SELECT id_staff FROM staff WHERE name = $1 AND number = $2 AND id_clinic = $3 LIMIT 1;";
 const insertDoctorTime =
   "INSERT INTO doctortime (id_doctortime, doctor, shift, status) VALUES($1, $2, $3, $4)";
+const deleteDoctorTime = "DELETE FROM doctortime WHERE id_doctortime = $1";
 export default {
   getStaff,
   insertStaff,
   updateStaffType,
   deleteStaff,
+  deleteDoctorTime,
   getDoctorByName,
   getStaffByDepartment,
   getStaffByID,
